@@ -77,7 +77,8 @@ export default function KakaoShareButton({ date, diaryText, title, photos = [] }
         })
       }
     } catch (e: any) {
-      alert('공유 중 오류가 발생했습니다: ' + (e?.message ?? String(e)))
+      const msg = e?.message ?? e?.msg ?? JSON.stringify(e)
+      alert('공유 중 오류가 발생했습니다: ' + msg)
     } finally {
       setSharing(false)
     }
