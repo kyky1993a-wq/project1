@@ -5,13 +5,17 @@ services:
     runtime: python
     buildCommand: pip install -r backend/requirements.txt && npm --prefix frontend install && npm --prefix frontend run build
     startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: photos-storage
+      mountPath: /var/data/photos
+      sizeGB: 1
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: diary-db
           property: connectionString
       - key: PHOTOS_DIR
-        value: /tmp/photos
+        value: /var/data/photos
       - key: PHOTOS_BASE_URL
         sync: false          # 배포 후 Render URL로 직접 입력: https://<앱이름>.onrender.com/static/photos
       - key: ALLOWED_ORIGINS
