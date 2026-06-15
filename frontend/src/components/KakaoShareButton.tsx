@@ -60,8 +60,8 @@ export default function KakaoShareButton({ date, diaryText, title, photos = [] }
             description: preview,
             imageUrl,
             link: {
-              mobileWebUrl: 'https://kakao.com',
-              webUrl: 'https://kakao.com',
+              mobileWebUrl: window.location.origin,
+              webUrl: window.location.origin,
             },
           },
         })
