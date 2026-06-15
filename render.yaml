@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: diary-app
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt && npm --prefix frontend install && npm --prefix frontend run build
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: photos-storage
+      mountPath: /var/data/photos
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: diary-db
+          property: connectionString
+      - key: PHOTOS_DIR
+        value: /var/data/photos
+      - key: PHOTOS_BASE_URL
+        sync: false          # 배포 후 Render URL로 직접 입력: https://<앱이름>.onrender.com/static/photos
+      - key: ALLOWED_ORIGINS
+        sync: false          # 배포 후 Render URL로 직접 입력: https://<앱이름>.onrender.com
+      - key: DEFAULT_AI_PROVIDER
+        value: groq
+      - key: CHILD_NAME
+        value: 아이
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: KAKAO_JS_KEY
+        sync: false
+      - key: MICROSOFT_CLIENT_ID
+        sync: false
+
+databases:
+  - name: diary-db
+    databaseName: diary_db
+    user: diary_user
+    plan: free
